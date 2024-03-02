@@ -1,27 +1,42 @@
-{% extends "auth.html" %} {%block title%} login {%endblock%} 
-{%block content%}
+{% extends "auth.html" %} {%block title%} login {%endblock%} {%block content%}
 <div class="wrapper">
-        <div class="logo">
-            <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="">
-        </div>
-        <div class="text-center mt-4 name">
-            Hospital Management
-        </div>
-        <form class="p-3 mt-3" action="" method="POST">
-            {%csrf_token %}
-            <div class="form-field d-flex align-items-center">
-                <span class="far fa-user"></span>
-                <input type="text" name="username" id="username" placeholder="Username" >
-            </div>
-            <div class="form-field d-flex align-items-center">
-                <span class="fas fa-key"></span>
-                <input type="password" name="password" id="password" placeholder="Password" >
-            </div>
-        
-                <button  type="submit" class="btn mt-3">Login</button>
-        </form>
-        <div class="text-center fs-6">
-            <a href="#">Forget password?</a> or <a href="{%url 'signup' %}">Sign up</a>
-        </div>
+  <div class="logo">
+    <img
+      src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png"
+      alt=""
+    />
+  </div>
+  <div class="text-center mt-4 name">Hospital Management</div>
+  <form class="p-3 mt-3" action="" method="POST">
+    {%csrf_token %}
+    <div class="form-field d-flex align-items-center">
+      <span class="far fa-user"></span>
+      <input type="text" name="username" id="username" placeholder="Username" />
     </div>
+    <div class="form-field d-flex align-items-center">
+      <span class="fas fa-key"></span>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+      />
+    </div>
+    
+    {% if messages %}
+    <div class="alert alert-danger text-center p-1 m-1" role="alert">
+        <div class="messages">
+            {% for message in messages %}
+            <span>{{ message }}</span>
+            {% endfor %}
+       </div>
+    </div>
+{% endif %}
+
+    <button type="submit" class="btn mt-3">Login</button>
+  </form>
+  <div class="text-center fs-6">
+    <a href="{%url 'signup' %}">Sign up</a>
+  </div>
+</div>
 {% endblock %}

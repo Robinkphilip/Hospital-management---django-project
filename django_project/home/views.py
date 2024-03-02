@@ -16,7 +16,7 @@ def user_login(request):
             request.session['username'] = username
             return  redirect(home)
         else:
-            messages.error(request,"Bad Creadentails")
+            messages.error(request,"Incorrect username or password")
             return redirect(user_login)
     return render(request,'login_page.html' )
 
@@ -44,24 +44,34 @@ def home(request):
         return render(request , 'home.html')
     return redirect(user_login)
 def about(request):
-    return render(request,"about.html")
+    if 'username' in request.session:
+        return render(request,"about.html")
+    return redirect(user_login)
 def doctors(request): 
-    context = { 'doctors': Doctors.objects.all() }
-    return render(request,"doctors.html",context)
+    if 'username' in request.session:
+        context = { 'doctors': Doctors.objects.all() }
+        return render(request,"doctors.html",context)
+    return redirect(user_login)
 def booking(request):
-    if request.method == "POST":
-        form = BookingForms(request.POST)
-        if form.is_valid():
-            form.save()
-    form = BookingForms()
-    context = {
-        "form" : form
-    }
-    return render(request,"booking.html",context)
+    if 'username' in request.session:
+        if request.method == "POST":
+            form = BookingForms(request.POST)
+            if form.is_valid():
+                form.save()
+        form = BookingForms()
+        context = {
+            "form" : form
+            }
+        return render(request,"booking.html",context)
+    return redirect(user_login)
 def contact(request):
-    return render(request,"contact.html")
+    if 'username' in request.session:
+        return render(request,"contact.html")
+    return redirect(user_login)
 def departments(request):
-    context = {
-        'dept':Departments.objects.all()
-    }
-    return render(request,"departments.html",context)
+    if 'username' in request.session:
+        context = {
+            'dept':Departments.objects.all()
+        }
+        return render(request,"departments.html",context)
+    return redirect(user_login)
