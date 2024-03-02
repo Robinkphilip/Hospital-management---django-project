@@ -27,14 +27,18 @@ def user_sign_up(request):
         email = request.POST['email']
         password = request.POST['password']
 
-        if username and email and password is None:
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists")
+        elif User.objects.filter(email=email).exists():
+            messages.error(request, "Email already exists")
+        elif username and password and email is not None:
             myuser = User.objects.create_user(username, email, password)
             myuser.save()
-            messages.success(request, "Account created successfully") 
             request.session['username'] = username
             return redirect(home)
         else:
-            messages.error(request, "Not valid")
+            messages.error(request, "Empty field")
+            return redirect('signup')
     return render(request, 'sign_up.html' )
 
 
