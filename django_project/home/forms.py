@@ -1,6 +1,9 @@
 from django import forms
 from .models import Booking
 
+
+
+
 class DataInput(forms.DateInput):
     input_type = "date"
 class BookingForms(forms.ModelForm):

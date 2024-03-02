@@ -26,12 +26,16 @@ def user_sign_up(request):
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
-        myuser = User.objects.create_user(username,email,password)
-        myuser.save()
-        messages.success(request, "success")
-        request.session['username'] = username
-        return redirect('home')
-    return render(request,'sign_up.html' )
+
+        if username and email and password is None:
+            myuser = User.objects.create_user(username, email, password)
+            myuser.save()
+            messages.success(request, "Account created successfully") 
+            request.session['username'] = username
+            return redirect(home)
+        else:
+            messages.error(request, "Not valid")
+    return render(request, 'sign_up.html' )
 
 
 def user_logout(request):
