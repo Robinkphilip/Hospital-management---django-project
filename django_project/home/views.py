@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Departments,Doctors
 from .forms import  BookingForms
+
 # Create your views here.
+
 def user_login(request):
     if 'username' in request.session:
         return redirect(home)
@@ -79,7 +81,7 @@ def contact(request):
 def departments(request):
     if 'username' in request.session:
         context = {
-            'dept':Departments.objects.all()
+            'dept':Departments.objects.get(1)
         }
         return render(request,"departments.html",context)
     return redirect(user_login)
